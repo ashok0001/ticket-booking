@@ -1,3 +1,4 @@
+const { listen } = require("../index.js");
 const Seat = require("../models/seats.model.js");
 
 async function getAllSeats(){
@@ -60,23 +61,23 @@ async function bookSeats(seats){
         }
         else{
 
-            // console.log("its entered .....",)
+            console.log("its entered .....",)
 
 
-            const nearestSeats=[];
+            let nearestSeats=[];
             
-            const minDistance=Infinity
-            const distance=0
-            const startIndex=0;
-            const endIndex=seats;
-            for(let i=0; i<seats; i++){
-                
-                distance+=availableSeats[i].seatNumber;
-            }
+            var minDistance=Infinity
+            var distance = Infinity
+            var startIndex=0;
+            var endIndex=seats;
+           
+           
 
-            for(let i=0; i<availableSeats.length; i++){
+            console.log("nearest seat ",nearestSeats,distance)
+
+            for(let i=0; i<availableSeats.length-seats; i++){
                 
-                distance=distance-availableSeats[i]+availableSeats[seats+i];
+                distance=availableSeats[seats+i].seatNumber-availableSeats[i].seatNumber;
                 if(distance<minDistance){
                     minDistance=distance
                     startIndex=i;
@@ -84,11 +85,10 @@ async function bookSeats(seats){
                 }
 
             }
-
-            for(let i=startIndex; i<=endIndex; i++){
+            for(let i=startIndex; i<endIndex; i++){
                 nearestSeats.push(availableSeats[i])
             }
-
+            
             for(let i=0; i<nearestSeats.length; i++){
                 nearestSeats[i].isBooked=true;
                 await nearestSeats[i].save();
