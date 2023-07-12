@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { BookingService } from 'src/app/Services/booking.service';
+import { SeatState } from 'src/app/State/seat/Reducer';
+import { SeatService } from 'src/app/State/seat/Service';
+import { AppState } from 'src/app/model/AppState.model';
+import { Seat } from 'src/app/model/seat.model';
 
 @Component({
   selector: 'app-sets',
@@ -7,12 +13,17 @@ import { Component } from '@angular/core';
 })
 export class SetsComponent {
 
-  seats=[1];
+  seats: Seat[]=[];
 
-  constructor(){
-    for(let i=1; i<80; i++){
-      this.seats.push(i+1)
-    }
+  constructor(private seatService: SeatService,private store:Store<AppState>) { }
+
+  ngOnInit() {
+    this.seatService.loadAllSeats(); // Call the method to initiate seat loading
+    this.store.pipe(select((state: AppState) => state)).subscribe((seats) => {
+      this.seats = seats.seats.seats;
+      console.log("seats from store", seats);
+    });
+    
   }
 
 }

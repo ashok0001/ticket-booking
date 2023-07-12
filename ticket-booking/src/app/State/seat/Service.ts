@@ -1,0 +1,40 @@
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { Seat } from 'src/app/model/seat.model';
+import { bookSeats, bookSeatsFailure, bookSeatsSuccess, loadSeats, loadSeatsFailure, loadSeatsSuccess } from './Actions';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SeatService {
+  [x: string]: any;
+  private apiUrl = 'https://thankful-tweed-jacket-fox.cyclic.app/api/seats';
+  private localHost='http://localhost:5000/api/seats'
+
+  constructor(private store: Store, private http: HttpClient) { }
+
+  loadAllSeats() {
+    this.store.dispatch(loadSeats());
+
+    return this.http.get<Seat[]>(this.localHost).pipe(
+      map((seats: Seat[]) => loadSeatsSuccess({ seats })),
+      catchError(error => of(loadSeatsFailure({ error })))
+    ).subscribe(action => this.store.dispatch(action));
+  }
+
+  bookSeatsHandler(numberOfSeats:number){
+    this.store.dispatch(bookSeats({numberOfSeats}))
+
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+
+    return this.http.put<Seat[]>(`${this.localHost}/book`,{numberOfSeats},{headers}).pipe(
+        map((bookedSeats:Seat[])=>bookSeatsSuccess({bookedSeats})),
+        catchError(error=>of(bookSeatsFailure({error})))
+    ).subscribe(action=>this.store.dispatch(action));
+  }
+}
