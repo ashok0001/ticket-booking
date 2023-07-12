@@ -5,7 +5,7 @@ async function createCoach(req,res){
         const coach=await coachService.createCoach(80)
         return res.status(200).send(coach);
     } catch (error) {
-        return res.status(500).json({error:"internal server error"})
+        return res.status(500).send({error:"internal server error from create coach controller"})
     }
 }
 

@@ -10,6 +10,10 @@ const seatSchema = new mongoose.Schema({
     type:Number,
     required:true
   },
+  seatNumber:{
+    type:Number,
+    required:true
+  },
   coach:{
     type: mongoose.Schema.Types.ObjectId,
         ref: 'coach',

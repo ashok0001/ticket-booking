@@ -13,7 +13,7 @@ async function createCoach(numberOfSeats) {
     const seatIds = [];
     
       for (let seatNumber = 1; seatNumber <= numberOfSeats; seatNumber++) {
-        const newSeat = new Seat({ row:(seatNumber/7)+1, coach: savedCoach._id });
+        const newSeat = new Seat({ row:Math.ceil(seatNumber/7), coach: savedCoach._id,seatNumber });
         const savedSeat = await newSeat.save();
         seatIds.push(newSeat);
       }
@@ -23,7 +23,7 @@ async function createCoach(numberOfSeats) {
     savedCoach.seats = seatIds;
     await savedCoach.save();
 
-    console.log(seatIds)
+    // console.log(savedCoach)
 
     return savedCoach;
   } catch (error) {

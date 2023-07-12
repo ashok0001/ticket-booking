@@ -1,3 +1,4 @@
+const Seat = require("../models/seats.model");
 const seatService=require("../services/seat.service");
 
 
@@ -16,6 +17,17 @@ async function getAllSeats(req,res){
     }
 }
 
+async function bookSeats(req,res){
+    try {
+
+        const seats=await seatService.bookSeats(req.body.numberOfSeats);
+        return res.status(200).send(seats)
+        
+    } catch (error) {
+        return res.status(500).json({ error: 'Internal Server Error from bookSeats controller' });
+    }
+}
+
 module.exports={
-    getAllSeats
+    getAllSeats,bookSeats
 }
