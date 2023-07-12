@@ -1,4 +1,4 @@
-const Seat = require("../models/seats.model");
+const Seat = require("../models/seats.model.js");
 
 async function getAllSeats(){
     

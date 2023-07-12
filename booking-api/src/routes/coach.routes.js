@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const coachController=require("../controllers/coach.controller")
+const coachController=require("../controllers/coach.controller.js")
 
 router.post("/coaches",coachController.createCoach)
 

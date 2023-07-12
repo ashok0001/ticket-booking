@@ -1,5 +1,5 @@
-const Seat = require("../models/seats.model");
-const seatService=require("../services/seat.service");
+const Seat = require("../models/seats.model.js");
+const seatService=require("../services/seat.service.js");
 
 
 async function getAllSeats(req,res){
