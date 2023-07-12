@@ -58,7 +58,7 @@
     </div>
   </div>
 
-  <p class="mt-10 text-red-600" *ngIf="error">
-    {{error}}
+  <p class="mt-10 text-red-600" *ngIf="error$ as error">
+    * {{error}}
   </p>
 </div>

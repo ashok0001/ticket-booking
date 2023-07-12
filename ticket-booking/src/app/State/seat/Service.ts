@@ -19,7 +19,7 @@ export class SeatService {
   loadAllSeats() {
     this.store.dispatch(loadSeats());
 
-    return this.http.get<Seat[]>(this.apiUrl).pipe(
+    return this.http.get<Seat[]>(this.localHost).pipe(
       map((seats: Seat[]) => loadSeatsSuccess({ seats })),
       catchError(error => of(loadSeatsFailure({ error })))
     ).subscribe(action => this.store.dispatch(action));
@@ -32,11 +32,12 @@ export class SeatService {
         'Content-Type': 'application/json',
       })
 
-    return this.http.put<Seat[]>(`${this.apiUrl}/book`,{numberOfSeats},{headers}).pipe(
-        map((seats:Seat[])=>bookSeatsSuccess({bookedSeats:seats})),
+    return this.http.put<Seat[]>(`${this.localHost}/book`,{numberOfSeats},{headers}).pipe(
+        map((seats:Seat[])=>{this.loadAllSeats();
+             return bookSeatsSuccess({bookedSeats:seats})}),
         catchError(error=>of(bookSeatsFailure({error})))
     ).subscribe(action=>{
-        this.loadAllSeats()
+        
         return this.store.dispatch(action)}
     );
   }
@@ -44,7 +45,7 @@ export class SeatService {
   resetAllBookingHandler(){
     this.store.dispatch(resetAllBooking())
 
-    return this.http.put<Seat[]>(`${this.apiUrl}/reset-booking`,{}).pipe(
+    return this.http.put<Seat[]>(`${this.localHost}/reset-booking`,{}).pipe(
         map((seats:Seat[])=>resetAllBookingSuccess({seats})),
         catchError(error=>of(resetAllBookingFailure({error})))
     ).subscribe(action=>{

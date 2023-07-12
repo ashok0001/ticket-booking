@@ -20,16 +20,16 @@ const initialState: SeatState = {
 export const seatReducer = createReducer(
   initialState,
 
-  on(loadSeats,(state)=>({...state,loading:true})),
-  on(loadSeatsSuccess, (state, { seats }) => ({ ...state, seats , loading:false})),
+  on(loadSeats,(state)=>({...state,loading:true, error:null})),
+  on(loadSeatsSuccess, (state, { seats }) => ({ ...state, seats , loading:false, error:null})),
   on(loadSeatsFailure, (state, { error }) => ({ ...state, error,loading:false })),
 
-  on(bookSeats,(state)=>({...state,bookedSeats:[],loading:true})),
-  on(bookSeatsSuccess,(state,{bookedSeats})=>({...state,bookedSeats,loading:false})),
+  on(bookSeats,(state)=>({...state,bookedSeats:[],loading:true, error:null})),
+  on(bookSeatsSuccess,(state,{bookedSeats})=>({...state,bookedSeats,loading:false, error:null})),
   on(bookSeatsFailure,(state,{error})=>({...state,error,loading:false})),
 
 
-  on(resetAllBooking,(state)=>({...state,loading:true})),
-  on(resetAllBookingSuccess,(state,{seats})=>({...state,loading:false})),
+  on(resetAllBooking,(state)=>({...state,loading:true, error:null})),
+  on(resetAllBookingSuccess,(state,{seats})=>({...state,loading:false, error:null})),
   on(resetAllBookingFailure,(state,{error})=>({...state,error,loading:false}))
 );

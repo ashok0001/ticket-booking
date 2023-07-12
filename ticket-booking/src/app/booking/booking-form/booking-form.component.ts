@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl, ValidationErrors, AsyncValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { SeatService } from 'src/app/State/seat/Service';
 import { AppState } from 'src/app/model/AppState.model';
@@ -21,12 +21,17 @@ export class BookingFormComponent {
   });
  
  bookedSeats$:Observable<Seat[]>;
- error:String='';
+ error$:Observable<any> | undefined
  
 
   
   constructor(private formBuilder: FormBuilder,private seatService:SeatService,private store:Store<AppState>) {
     this.bookedSeats$ = this.store.select(state => state.seats.bookedSeats);
+    
+    this.store.pipe(select((state: AppState) => state)).subscribe((seats) => {
+      this.error$ = seats.seats.error?.error?.error;
+      console.log("error from store", this.error$);
+    });
   }
 
   ngOnInit() {
@@ -36,17 +41,9 @@ export class BookingFormComponent {
 
   handleSubmit=()=>{
 
-    if(this.bookingForm.value.numberOfSeats>7){
-      this.error="you can book max 7 seat at time"
-      return;
-    }
-    else if(this.bookingForm.value.numberOfSeats<1 || !this.bookingForm.valid){
-      this.error="please enter valid number"
-      return;
-    }
     
     this.seatService.bookSeatsHandler(this.bookingForm.value.numberOfSeats)
-    this.error=''
+    
    
   }
 
