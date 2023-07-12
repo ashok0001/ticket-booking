@@ -40,4 +40,8 @@ export class BookingFormComponent {
       // console.log('The number is: ', this.bookingForm.value);
     }
   }
+
+  resetAllBooking=()=>{
+    this.seatService.resetAllBookingHandler();
+  }
 }

@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Seat } from 'src/app/model/seat.model';
-import { bookSeats, bookSeatsFailure, bookSeatsSuccess, loadSeats, loadSeatsFailure, loadSeatsSuccess } from './Actions';
+import { bookSeats, bookSeatsFailure, bookSeatsSuccess, loadSeats, loadSeatsFailure, loadSeatsSuccess, resetAllBooking, resetAllBookingFailure, resetAllBookingSuccess } from './Actions';
 
 @Injectable({
   providedIn: 'root'
@@ -33,8 +33,20 @@ export class SeatService {
       })
 
     return this.http.put<Seat[]>(`${this.localHost}/book`,{numberOfSeats},{headers}).pipe(
-        map((bookedSeats:Seat[])=>bookSeatsSuccess({bookedSeats})),
+        map((seats:Seat[])=>bookSeatsSuccess({bookedSeats:seats})),
         catchError(error=>of(bookSeatsFailure({error})))
-    ).subscribe(action=>this.store.dispatch(action));
+    ).subscribe(action=>{
+        this.loadAllSeats()
+        return this.store.dispatch(action)}
+    );
+  }
+
+  resetAllBookingHandler(){
+    this.store.dispatch(resetAllBooking())
+
+    return this.http.put<Seat[]>(`${this.localHost}/reset-booking`,{}).pipe(
+        map((seats:Seat[])=>resetAllBookingSuccess({seats})),
+        catchError(error=>of(resetAllBookingFailure({error})))
+    ).subscribe(action=>this.store.dispatch(action))
   }
 }

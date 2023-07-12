@@ -11,12 +11,27 @@ export const loadSeatsFailure = createAction(
   props<{ error: any }>()
 );
 
-export const bookSeats = createAction('[Seat] Book Seats',props<{numberOfSeats:number}>());
+
+export const bookSeats = createAction(
+  '[Seat] Book Seats',
+  props<{ numberOfSeats: number }>()
+);
 export const bookSeatsSuccess = createAction(
   '[Seat] Book Seat Success',
   props<{ bookedSeats: Seat[] }>()
 );
 export const bookSeatsFailure = createAction(
   '[Seat] Book Seats Failure',
+  props<{ error: any }>()
+);
+
+
+export const resetAllBooking = createAction('[Seat] reset all booking');
+export const resetAllBookingSuccess = createAction(
+  '[Seat] reset all booking success',
+  props<{ seats: Seat[] }>()
+);
+export const resetAllBookingFailure = createAction(
+  '[Seat] reset all booking failure',
   props<{ error: any }>()
 );
