@@ -58,7 +58,7 @@
     </div>
   </div>
 
-  <p class="mt-10" *ngIf="bookingForm.invalid">
-    The form is invalid. Please enter a number between 1 and 6.
+  <p class="mt-10 text-red-600" *ngIf="error">
+    {{error}}
   </p>
 </div>
