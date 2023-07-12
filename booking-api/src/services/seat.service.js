@@ -94,7 +94,6 @@ async function bookSeats(seats){
                 nearestSeats[i].isBooked=true;
                 await nearestSeats[i].save();
             }
-            // console.log("nearest ",nearestSeats,startIndex,endIndex,minDistance)
             return nearestSeats;
         }
         
