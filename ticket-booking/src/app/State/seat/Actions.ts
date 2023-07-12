@@ -13,8 +13,7 @@ export const loadSeatsFailure = createAction(
 
 
 export const bookSeats = createAction(
-  '[Seat] Book Seats',
-  props<{ numberOfSeats: number }>()
+  '[Seat] Book Seats'
 );
 export const bookSeatsSuccess = createAction(
   '[Seat] Book Seat Success',

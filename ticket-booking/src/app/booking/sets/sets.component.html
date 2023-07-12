@@ -1,5 +1,5 @@
 <div>
-  <div class="grid grid-cols-7 ">
+  <div *ngIf="!(isLoading$ | async)" class="grid grid-cols-7 ">
     <div class="col-span-1 p-2" *ngFor="let seat of seats">
       <div
         class="h-14 w-14 flex flex-col items-center justify-center text-black font-semibold text-lg rounded-md"
@@ -10,5 +10,9 @@
     </div>
 
     
+  </div>
+
+  <div *ngIf="isLoading$ | async" class="min-h-screen flex flex-col w-full justify-center items-center">
+    <p class="font-semibold text-xl text-gray-400">Loading... </p>
   </div>
 </div>

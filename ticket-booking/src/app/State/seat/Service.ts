@@ -26,7 +26,7 @@ export class SeatService {
   }
 
   bookSeatsHandler(numberOfSeats:number){
-    this.store.dispatch(bookSeats({numberOfSeats}))
+    this.store.dispatch(bookSeats())
 
     const headers = new HttpHeaders({
         'Content-Type': 'application/json',
@@ -47,6 +47,9 @@ export class SeatService {
     return this.http.put<Seat[]>(`${this.localHost}/reset-booking`,{}).pipe(
         map((seats:Seat[])=>resetAllBookingSuccess({seats})),
         catchError(error=>of(resetAllBookingFailure({error})))
-    ).subscribe(action=>this.store.dispatch(action))
+    ).subscribe(action=>{
+        this.store.dispatch(bookSeats())
+        this.loadAllSeats();
+         return this.store.dispatch(action)})
   }
 }
