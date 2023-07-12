@@ -100,7 +100,8 @@ async function bookSeats(seats){
         }
         
     } catch (error) {
-        throw new Error('Failed to book seats');
+        console.log("error", error.message)
+        throw new Error(error.message);
     }
 }
 

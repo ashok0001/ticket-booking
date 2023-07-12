@@ -13,7 +13,7 @@ async function getAllSeats(req,res){
         return res.status(200).send(seats)
         
     } catch (error) {
-        return res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).send({ error });
     }
 }
 
@@ -24,7 +24,7 @@ async function bookSeats(req,res){
         return res.status(200).send(seats)
         
     } catch (error) {
-        return res.status(500).json({ error: 'Internal Server Error from bookSeats controller' });
+        return res.status(500).send({ error:error.message });
     }
 }
 
@@ -35,7 +35,7 @@ async function resetAllBookingController(req,res){
         return res.status(200).send({message:"reset all the booking successfully"})
         
     } catch (error) {
-        return res.status(500).json({ error: 'Internal Server Error from reset all seats controller' });
+        return res.status(500).json({ error });
 
     }
 }
