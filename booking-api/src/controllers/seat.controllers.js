@@ -28,6 +28,18 @@ async function bookSeats(req,res){
     }
 }
 
+async function resetAllBookingController(req,res){
+    try {
+
+        await seatService.restAllBooking();
+        return res.status(200).send({message:"reset all the booking successfully"})
+        
+    } catch (error) {
+        return res.status(500).json({ error: 'Internal Server Error from reset all seats controller' });
+
+    }
+}
+
 module.exports={
-    getAllSeats,bookSeats
+    getAllSeats,bookSeats,resetAllBookingController
 }

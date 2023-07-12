@@ -24,7 +24,7 @@ async function bookSeats(seats){
 
        
 
-        let availableInOneRow=[availableSeats[0]];
+        let availableInOneRow=[];
 
         for(let i=1;  i<availableSeats.length && availableInOneRow.length<seats; i++){
 
@@ -33,7 +33,7 @@ async function bookSeats(seats){
             }
             
             if(availableSeats[i-1].row===availableSeats[i].row){
-                availableInOneRow.push(availableSeats[i])
+                availableInOneRow.push(availableSeats[i-1])
             }
             else{
                 availableInOneRow=[]
@@ -45,15 +45,17 @@ async function bookSeats(seats){
         if(availableInOneRow.length===seats){
             // const bookedSeats=[]
             for(let i=0; i<availableInOneRow.length; i++){
-                console.log("available seats ",i)
                 availableInOneRow[i].isBooked=true;
                 await availableInOneRow[i].save()
-                console.log("available seats ",availableInOneRow[i])
                 
             }
             return availableInOneRow;
         }
         else{
+
+            console.log("its entered .....",)
+
+
             const nearestSeats=[];
             
             const minDistance=Infinity
@@ -61,8 +63,7 @@ async function bookSeats(seats){
             const startIndex=0;
             const endIndex=seats;
             for(let i=0; i<seats; i++){
-                temp.push(availableSeats[i])
-                nearestSeats.push(availableSeats[i])
+                
                 distance+=availableSeats[i].seatNumber;
             }
 
@@ -93,4 +94,19 @@ async function bookSeats(seats){
     }
 }
 
-module.exports={getAllSeats,bookSeats}
+async function restAllBooking(){
+    try {
+
+        const seats=await Seat.find();
+        for(let seat of seats){
+            seat.isBooked=false;
+            await seat.save()
+        }
+
+        
+    } catch (error) {
+        throw new Error('Failed to rest booking');
+    }
+}
+
+module.exports={getAllSeats,bookSeats,restAllBooking}
