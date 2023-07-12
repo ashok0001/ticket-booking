@@ -13,10 +13,11 @@ async function getAllSeats(){
 async function bookSeats(seats){
     try {
 
-        if(seats<0){
+        if(seats<1){
             throw new Error('minimum 1 seat required');
         }
         else if(seats>7){
+            console.log("one userr can book max 7 seats at time")
             throw new Error("one user can book max 7 seats at time")
         }
 
@@ -26,14 +27,18 @@ async function bookSeats(seats){
 
         let availableInOneRow=[];
 
-        for(let i=1;  i<availableSeats.length && availableInOneRow.length<seats; i++){
+        for(let i=1;  i<availableSeats.length; i++){
 
             if(availableInOneRow.length==seats){
                 break;
             }
-            
+           
             if(availableSeats[i-1].row===availableSeats[i].row){
                 availableInOneRow.push(availableSeats[i-1])
+                if(availableInOneRow.length===seats-1){
+                    availableInOneRow.push(availableSeats[i])
+                    break;
+                }
             }
             else{
                 availableInOneRow=[]
@@ -53,7 +58,7 @@ async function bookSeats(seats){
         }
         else{
 
-            console.log("its entered .....",)
+            // console.log("its entered .....",)
 
 
             const nearestSeats=[];

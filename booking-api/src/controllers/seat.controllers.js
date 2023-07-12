@@ -8,7 +8,7 @@ async function getAllSeats(req,res){
 
         const seats=await seatService.getAllSeats();
 
-        console.log("seats - ",seats)
+        // console.log("seats - ",seats)
 
         return res.status(200).send(seats)
         

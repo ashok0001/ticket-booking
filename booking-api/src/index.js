@@ -12,7 +12,7 @@ app.use(
 
 app.get("/", async (req,res) => {
     
-  return res.status(200).send("welcome to ticket booking system")
+  return res.status(200).send({message:"welcome to ticket booking system"})
 })
 
 // seat
