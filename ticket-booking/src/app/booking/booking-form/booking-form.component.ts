@@ -21,7 +21,7 @@ export class BookingFormComponent {
   });
  
  bookedSeats$:Observable<Seat[]>;
- error$:Observable<any> | undefined
+ error=''
  
 
   
@@ -29,8 +29,8 @@ export class BookingFormComponent {
     this.bookedSeats$ = this.store.select(state => state.seats.bookedSeats);
     
     this.store.pipe(select((state: AppState) => state)).subscribe((seats) => {
-      this.error$ = seats.seats.error?.error?.error;
-      console.log("error from store", this.error$);
+      this.error = seats.seats.error?.error?.error;
+      console.log("error from store", this.error);
     });
   }
 
@@ -41,7 +41,14 @@ export class BookingFormComponent {
 
   handleSubmit=()=>{
 
-    
+    if(this.bookingForm.value.numberOfSeats>7) {
+      this.error="you can book max 7 seat at time"
+      return
+    }
+    if(this.bookingForm.value.numberOfSeats<1) {
+      this.error="Please Enter A Valid Number"
+      return
+    }
     this.seatService.bookSeatsHandler(this.bookingForm.value.numberOfSeats)
     
    

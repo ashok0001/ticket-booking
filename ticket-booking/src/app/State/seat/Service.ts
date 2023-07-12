@@ -12,7 +12,7 @@ import { bookSeats, bookSeatsFailure, bookSeatsSuccess, loadSeats, loadSeatsFail
 export class SeatService {
   [x: string]: any;
   private apiUrl = 'https://thankful-tweed-jacket-fox.cyclic.app/api/seats';
-  private localHost='http://localhost:5000/api/seats'
+//   private apiUrl='http://localhost:5000/api/seats'
 
   constructor(private store: Store, private http: HttpClient) { }
 
