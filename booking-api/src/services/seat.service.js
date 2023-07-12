@@ -61,7 +61,7 @@ async function bookSeats(seats){
         }
         else{
 
-            console.log("its entered .....",)
+            // console.log("its entered .....",)
 
 
             let nearestSeats=[];
@@ -73,16 +73,18 @@ async function bookSeats(seats){
            
            
 
-            console.log("nearest seat ",nearestSeats,distance)
 
-            for(let i=0; i<availableSeats.length-seats; i++){
+            for(let i=0; i<=availableSeats.length-seats; i++){
                 
-                distance=availableSeats[seats+i].seatNumber-availableSeats[i].seatNumber;
+                distance=availableSeats[seats+i-1].seatNumber-availableSeats[i].seatNumber;
                 if(distance<minDistance){
                     minDistance=distance
                     startIndex=i;
                     endIndex=seats+i;
                 }
+                // console.log(availableSeats[i].seatNumber)
+
+                // console.log("distance ",distance," - ",availableSeats[seats+i].seatNumber,availableSeats[i].seatNumber)
 
             }
             for(let i=startIndex; i<endIndex; i++){
@@ -93,6 +95,7 @@ async function bookSeats(seats){
                 nearestSeats[i].isBooked=true;
                 await nearestSeats[i].save();
             }
+            // console.log("nearest ",nearestSeats,startIndex,endIndex,minDistance)
             return nearestSeats;
         }
         
