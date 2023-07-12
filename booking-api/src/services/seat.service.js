@@ -23,7 +23,9 @@ async function bookSeats(seats){
 
         const availableSeats=await Seat.find({isBooked:false});
 
-       
+        if(availableSeats.length<seats){
+            throw new Error(`only ${availableSeats.length} seats are vailable`)
+        }
 
         let availableInOneRow=[];
 
